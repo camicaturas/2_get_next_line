@@ -6,7 +6,7 @@
 /*   By: cberneri < cberneri@student.42prague.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 16:09:57 by cberneri          #+#    #+#             */
-/*   Updated: 2023/10/24 15:57:19 by cberneri         ###   ########.fr       */
+/*   Updated: 2023/11/23 11:55:10 by cberneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,34 +69,37 @@ char	*ft_move_start(char	*start)
 	free(start);
 	return (new_buff);
 }
-// de otro
-char	*get_next_lineOTRO(int fd)
+
+char	*get_next_line(int fd)
 {
-	char		*tmp;
+	char		*buffer_content;
 	int			fd_read;
 	static char	*start_str;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	fd_read = 1;
-	tmp = (char *)malloc(1 + BUFFER_SIZE * sizeof(char));
-	if (!tmp)
+	//temp es la data que tengo que leer
+	buffer_content = (char *)malloc(1 + BUFFER_SIZE * sizeof(char));
+	if (!buffer_content)
 		return (NULL);
+	//si no encuentro el salto de linea o si no puedo leer el archivo sigo leyendo segund el buffer
 	while (!(ft_strchr(start_str, '\n')) && fd_read != 0)
 	{
-		fd_read = read(fd, tmp, BUFFER_SIZE);
+		//leo el archivo y lo meto en un buffer
+		fd_read = read(fd, buffer_content, BUFFER_SIZE);
 		if (fd_read == -1)
 		{
-			free(tmp);
+			free(buffer_content);
 			return (NULL);
 		}
-		tmp[fd_read] = '\0';
-		start_str = ft_strjoin(start_str, tmp);
+		buffer_content[fd_read] = '\0';
+		start_str = ft_strjoin(start_str, buffer_content);
 	}
-	free(tmp);
-	tmp = ft_readed_line(start_str);
+	free(buffer_content);
+	buffer_content = ft_readed_line(start_str);
 	start_str = ft_move_start(start_str);
-	return (tmp);
+	return (buffer_content);
 }
 
 /*
@@ -219,7 +222,8 @@ char	*get_next_line(int fd)
 
 	return (0);
 }
-
+#include <stdio.h>
+#include <fcntl.h>
 int main()
 {
 	get_next_line(1);
