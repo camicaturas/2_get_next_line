@@ -6,7 +6,7 @@
 /*   By: cberneri < cberneri@student.42prague.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 16:09:57 by cberneri          #+#    #+#             */
-/*   Updated: 2023/11/23 11:55:10 by cberneri         ###   ########.fr       */
+/*   Updated: 2023/11/27 13:34:31 by cberneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,11 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	fd_read = 1;
-	//temp es la data que tengo que leer
-	buffer_content = (char *)malloc(1 + BUFFER_SIZE * sizeof(char));
+	buffer_content = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer_content)
 		return (NULL);
-	//si no encuentro el salto de linea o si no puedo leer el archivo sigo leyendo segund el buffer
 	while (!(ft_strchr(start_str, '\n')) && fd_read != 0)
 	{
-		//leo el archivo y lo meto en un buffer
 		fd_read = read(fd, buffer_content, BUFFER_SIZE);
 		if (fd_read == -1)
 		{
