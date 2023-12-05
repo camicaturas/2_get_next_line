@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cberneri < cberneri@student.42prague.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 16:09:57 by cberneri          #+#    #+#             */
-/*   Updated: 2023/11/30 16:39:42 by cberneri         ###   ########.fr       */
+/*   Updated: 2023/11/30 19:10:16 by cberneri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_readed_line(char *start)
 {
@@ -72,7 +72,7 @@ char	*get_next_line(int fd)
 {
 	char		*buffer_content;
 	int			fd_read;
-	static char	*start_str;
+	static char	*start_str[2048];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -91,8 +91,8 @@ char	*get_next_line(int fd)
 			break ;
 	}
 	free(buffer_content);
-	buffer_content = ft_readed_line(start_str);
-	start_str = ft_next_line(start_str);
+	buffer_content = ft_readed_line(start_str[fd]);
+	start_str[fd] = ft_next_line(start_str[fd]);
 	return (buffer_content);
 }
 
